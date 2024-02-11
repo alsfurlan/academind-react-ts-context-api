@@ -2,13 +2,23 @@ import { useRef } from 'react';
 import Button from './UI/Button';
 import { Form, FormHandle } from './UI/Form';
 import Input from './UI/Input';
-import { Timer } from '../store/timers-context';
+import { Timer, useTimersContext } from '../store/timers-context';
 
 export const AddTimer = () => {
   const form = useRef<FormHandle>(null);
+  const timersContext = useTimersContext();
+
   function handleSaveTimer(event: unknown): void {
     const data = event as Timer;
-    console.log(data);
+    if (
+      !data ||
+      typeof data !== 'object' ||
+      !('name' in data) ||
+      !('duration' in data)
+    ) {
+      return;
+    }
+    timersContext.addTimer(data);
     form.current?.clear();
   }
 
