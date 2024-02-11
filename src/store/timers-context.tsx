@@ -1,4 +1,10 @@
-import { FC, PropsWithChildren, createContext, useContext, useReducer } from 'react';
+import {
+  FC,
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useReducer,
+} from 'react';
 
 export type Timer = {
   name: string;
@@ -20,19 +26,30 @@ const TimersContext = createContext<TimersContextValue | null>(null);
 
 const initialState: TimersState = {
   isRunning: true,
-  timers: []
+  timers: [],
 };
 
-export const TimersContextProvider: FC<PropsWithChildren> = ({ children }) => {
+type TimersAction = {
+  type: 'ADD_TIMER' | 'START_TIMERS' | 'STOP_TIMERS';
+};
 
-  const [state, dispatch] = useReducer(() => {}, initialState);
+function timersReducer(state: TimersState, action: TimersAction): TimersState {}
+
+export const TimersContextProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [state, dispatch] = useReducer(timersReducer, initialState);
 
   const value: TimersContextValue = {
     isRunning: true,
     timers: [],
-    addTimer(timer: Timer) {},
-    startTimers() {},
-    stopTimers() {},
+    addTimer(timer: Timer) {
+      dispatch({ type: 'ADD_TIMER' });
+    },
+    startTimers() {
+      dispatch({ type: 'START_TIMERS' });
+    },
+    stopTimers() {
+      dispatch({ type: 'STOP_TIMERS' });
+    },
   };
   return (
     <TimersContext.Provider value={value}>{children}</TimersContext.Provider>
