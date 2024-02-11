@@ -33,7 +33,35 @@ type TimersAction = {
   type: 'ADD_TIMER' | 'START_TIMERS' | 'STOP_TIMERS';
 };
 
-function timersReducer(state: TimersState, action: TimersAction): TimersState {}
+function timersReducer(state: TimersState, action: TimersAction): TimersState {
+  if (action.type === 'START_TIMERS') {
+    return {
+      ...state,
+      isRunning: true,
+    };
+  }
+
+  if (action.type === 'STOP_TIMERS') {
+    return {
+      ...state,
+      isRunning: false,
+    };
+  }
+
+  if (action.type === 'ADD_TIMER') {
+    return {
+      ...state,
+      timers: [
+        ...state.timers,
+        {
+          
+        }
+      ],
+    };
+  }
+
+  return state;
+}
 
 export const TimersContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(timersReducer, initialState);
