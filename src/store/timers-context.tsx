@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, createContext, useContext } from 'react';
+import { FC, PropsWithChildren, createContext, useContext, useReducer } from 'react';
 
 export type Timer = {
   name: string;
@@ -18,7 +18,15 @@ type TimersContextValue = TimersState & {
 
 const TimersContext = createContext<TimersContextValue | null>(null);
 
+const initialState: TimersState = {
+  isRunning: true,
+  timers: []
+};
+
 export const TimersContextProvider: FC<PropsWithChildren> = ({ children }) => {
+
+  const [state, dispatch] = useReducer(() => {}, initialState);
+
   const value: TimersContextValue = {
     isRunning: true,
     timers: [],
