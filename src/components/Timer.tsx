@@ -21,7 +21,9 @@ export const Timer: FC<TimerProps> = ({ name, duration }: TimerProps) => {
 
     if (isRunning) {
       timer = setInterval(() => {
-        setRemainingTime((prevTime) => prevTime - 50);
+        setRemainingTime((prevTime) =>
+          prevTime <= 0 ? prevTime : prevTime - 50
+        );
       }, 50);
       interval.current = timer;
     } else if (interval.current) {
